@@ -112,6 +112,7 @@ void GamePlay::Update(sf::Time deltaTime)
                 if(m_snake.IsOn(wall))
                 {
                     m_context->m_states->Add(std::make_unique<GameOver>(m_context), true);
+                    GamePlay::SaveScore();
                     break;
                 }
             }
@@ -136,6 +137,7 @@ void GamePlay::Update(sf::Time deltaTime)
             if(m_snake.isSelfIntersecting())
             {
                 m_context->m_states->Add(std::make_unique<GameOver>(m_context), true);
+                GamePlay::SaveScore();
             }
 
             m_elapsedTime = sf::Time::Zero;
@@ -157,6 +159,20 @@ void GamePlay::Draw()
     m_context->m_window->draw(m_snake);
     m_context->m_window->draw(m_scoreText);
     m_context->m_window->display();
+}
+
+void GamePlay::SaveScore()
+{
+  std::ofstream file;
+  const char *fileName="gamedata/Score.txt";
+
+  file.open (fileName);
+  if (file.is_open())
+  {
+  file << std::to_string(m_score);
+  file.close();
+  }
+  else std::cout << "error saving";
 }
 
 void GamePlay::Pause()

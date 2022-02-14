@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <fstream>
+#include <string>
 
 #include <SFML/Graphics/Text.hpp>
 
@@ -14,7 +16,8 @@ private:
     sf::Text m_gameOverTitle;
     sf::Text m_retryButton;
     sf::Text m_exitButton;
-    
+    sf::Text m_finalScore;
+
     bool m_isRetryButtonSelected;
     bool m_isRetryButtonPressed;
 
@@ -29,4 +32,5 @@ public:
     void ProcessInput() override;
     void Update(sf::Time deltaTime) override;
     void Draw() override;
+    const std::string readScore();
 };

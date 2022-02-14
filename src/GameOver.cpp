@@ -41,6 +41,17 @@ void GameOver::Init()
     m_exitButton.setPosition(m_context->m_window->getSize().x / 2,
                              m_context->m_window->getSize().y / 2 + 25.f);
     m_exitButton.setCharacterSize(20);
+
+    //Score
+    std::string readScore = GameOver::readScore();
+    m_finalScore.setFont(m_context->m_assets->GetFont(MAIN_FONT));
+    m_finalScore.setString("Your score is " + readScore + " points!");
+    m_finalScore.setOrigin(m_finalScore.getLocalBounds().width / 2,
+                              m_finalScore.getLocalBounds().height / 2);
+    m_finalScore.setPosition(m_context->m_window->getSize().x / 2 + 100.f,
+                                m_context->m_window->getSize().y / 2 - 80.f);
+    m_finalScore.setCharacterSize(20);
+    
 }
 
 void GameOver::ProcessInput()
@@ -122,10 +133,32 @@ void GameOver::Update(sf::Time deltaTime)
     }
 }
 
+const std::string GameOver::readScore()
+{
+	std::string scoreString;
+	const char *fileName="gamedata/Score.txt";
+	std::ifstream file;
+	
+	file.open(fileName,std::ios::in);
+	if(!file)
+	{
+        return "ERROR";
+	}
+
+	while (!file.eof()) 
+	{
+		file >> std::noskipws >> scoreString;
+    }
+
+	file.close();
+    return scoreString;
+}
+
 void GameOver::Draw()
 {
     m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_gameOverTitle);
+    m_context->m_window->draw(m_finalScore);
     m_context->m_window->draw(m_retryButton);
     m_context->m_window->draw(m_exitButton);
     m_context->m_window->display();

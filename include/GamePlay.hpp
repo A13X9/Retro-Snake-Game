@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <iostream>
+#include <fstream>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -36,4 +38,5 @@ public:
     void Draw() override;
     void Pause() override;
     void Start() override;
+    void SaveScore();
 };
