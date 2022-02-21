@@ -12,6 +12,7 @@ enum AssetID
     MAIN_FONT = 0,
     GRASS,
     FOOD,
+    SUPER_FOOD,
     WALL,
     SNAKE
 };

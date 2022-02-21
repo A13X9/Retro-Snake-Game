@@ -13,6 +13,8 @@ GamePlay::GamePlay(std::shared_ptr<Context> &context)
       m_snakeDirection({16.f, 0.f}),
       m_elapsedTime(sf::Time::Zero),
       m_score(0),
+      m_SuperFooDCounter(1),
+      m_SuperFoodFlag(false),
       m_isPaused(false)
 {
     srand(time(NULL));
@@ -27,6 +29,7 @@ void GamePlay::Init()
 {
     m_context->m_assets->AddTexture(GRASS, "assets/textures/grass.png", true);
     m_context->m_assets->AddTexture(FOOD, "assets/textures/food.png");
+    m_context->m_assets->AddTexture(SUPER_FOOD, "assets/textures/superFood.png");
     m_context->m_assets->AddTexture(WALL, "assets/textures/wall.png", true);
     m_context->m_assets->AddTexture(SNAKE, "assets/textures/snake.png");
 
@@ -48,6 +51,9 @@ void GamePlay::Init()
 
     m_food.setTexture(m_context->m_assets->GetTexture(FOOD));
     m_food.setPosition({m_context->m_window->getSize().x/2, m_context->m_window->getSize().y /2});
+
+    m_SuperFood.setTexture(m_context->m_assets->GetTexture(SUPER_FOOD));
+    m_SuperFood.setPosition(-1000, -1000);
 
 
     m_snake.Init(m_context->m_assets->GetTexture(SNAKE));
@@ -117,7 +123,7 @@ void GamePlay::Update(sf::Time deltaTime)
                 }
             }
 
-            if(m_snake.IsOn(m_food))
+            if((m_snake.IsOn(m_food)))
             {
                 m_snake.Grow(m_snakeDirection);
 
@@ -127,8 +133,29 @@ void GamePlay::Update(sf::Time deltaTime)
 
                 m_food.setPosition(x, y);
                 m_score += 1;
+
                 m_scoreText.setString("Score : " + std::to_string(m_score));
             }
+
+            if(m_score %10 ==0 && (m_score!=0) && m_SuperFoodFlag==false)
+            {
+                int z =0, w =0;
+                z = std::clamp<int>(rand() % m_context->m_window->getSize().x, 16, m_context->m_window->getSize().x - 2 * 16);
+                w = std::clamp<int>(rand() % m_context->m_window->getSize().y, 16, m_context->m_window->getSize().y - 2 * 16);
+
+                m_SuperFood.setPosition(z, w);
+                m_SuperFoodFlag = true;
+            }
+
+            if(m_snake.IsOn(m_SuperFood))
+            {
+                m_score += (m_SuperFooDCounter * 2);
+                m_SuperFooDCounter++;
+                m_scoreText.setString("Score : " + std::to_string(m_score));
+                m_SuperFood.setPosition(-1000, -1000);
+                m_SuperFoodFlag = false;
+            }
+
             else
             {
                 m_snake.Move(m_snakeDirection);
@@ -156,6 +183,7 @@ void GamePlay::Draw()
     }
 
     m_context->m_window->draw(m_food);
+    m_context->m_window->draw(m_SuperFood);
     m_context->m_window->draw(m_snake);
     m_context->m_window->draw(m_scoreText);
     m_context->m_window->display();
