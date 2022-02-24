@@ -13,7 +13,6 @@ class PauseGame : public Engine::State
 private:
     std::shared_ptr<Context> m_context;
     sf::Text m_pauseTitle;
-    int m_currentScore;
 
 public:
     PauseGame(std::shared_ptr<Context> &context);

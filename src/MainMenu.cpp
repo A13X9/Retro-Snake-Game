@@ -8,7 +8,9 @@ MainMenu::MainMenu(std::shared_ptr<Context> &context)
     m_isPlayButtonSelected(true), 
     m_isPlayButtonPressed(false),
     m_isExitButtonSelected(false),
-    m_isExitButtonPressed(false)
+    m_isExitButtonPressed(false),
+    m_isHowToPlayButtonSelected(false),
+    m_isHowToPlayButtonPressed(false)
 {
 
 }
@@ -36,8 +38,18 @@ void MainMenu::Init()
     m_playButton.setOrigin(m_playButton.getLocalBounds().width / 2,
                            m_playButton.getLocalBounds().height / 2);
     m_playButton.setPosition(m_context->m_window->getSize().x / 2,
-                            m_context->m_window->getSize().y / 2 - 20.f);
+                             m_context->m_window->getSize().y / 2 - 20.f);
     m_playButton.setCharacterSize(20);
+
+
+    //How to Play Button
+    m_howToPlayButton.setFont(m_context->m_assets->GetFont(MAIN_FONT));
+    m_howToPlayButton.setString("How to play?");
+    m_howToPlayButton.setOrigin(m_howToPlayButton.getLocalBounds().width / 2,
+                                m_howToPlayButton.getLocalBounds().height / 2);
+    m_howToPlayButton.setPosition(m_context->m_window->getSize().x / 2 + 120,
+                                  m_context->m_window->getSize().y / 2 + 15.f);
+    m_howToPlayButton.setCharacterSize(20);
 
     //Exit Button
     m_exitButton.setFont(m_context->m_assets->GetFont(MAIN_FONT));
@@ -45,8 +57,9 @@ void MainMenu::Init()
     m_exitButton.setOrigin(m_exitButton.getLocalBounds().width / 2,
                            m_exitButton.getLocalBounds().height / 2);
     m_exitButton.setPosition(m_context->m_window->getSize().x / 2,
-                            m_context->m_window->getSize().y / 2 + 25.f);
+                             m_context->m_window->getSize().y / 2 + 55.f);
     m_exitButton.setCharacterSize(20);
+
 }
 
 void MainMenu::ProcessInput()
@@ -68,6 +81,7 @@ void MainMenu::ProcessInput()
                     {
                         m_isPlayButtonSelected = true;
                         m_isExitButtonSelected = false;
+                        m_isHowToPlayButtonSelected = false;
                     }
                     break;
                 }
@@ -77,6 +91,7 @@ void MainMenu::ProcessInput()
                     {
                         m_isPlayButtonSelected = false;
                         m_isExitButtonSelected = true;
+                        m_isHowToPlayButtonSelected = false;
                     }
                     break;
                 }
@@ -110,11 +125,13 @@ void MainMenu::Update(sf::Time deltaTime)
     {
         m_playButton.setFillColor(sf::Color::Green);
         m_exitButton.setFillColor(sf::Color::White);
+        m_howToPlayButton.setFillColor(sf::Color::White);
     }
     else
     {
         m_exitButton.setFillColor(sf::Color::Green);
         m_playButton.setFillColor(sf::Color::White);
+        m_howToPlayButton.setFillColor(sf::Color::White);
     }
 
     if(m_isPlayButtonPressed)
@@ -132,6 +149,7 @@ void MainMenu::Draw()
     m_context->m_window->clear(sf::Color::Black);
     m_context->m_window->draw(m_gameTitle);
     m_context->m_window->draw(m_playButton);
+    m_context->m_window->draw(m_howToPlayButton);
     m_context->m_window->draw(m_exitButton);
     m_context->m_window->display();
 }

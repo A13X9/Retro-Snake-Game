@@ -9,3 +9,4 @@ TODO:
 - [ ]  implement how to play
 - [ ]  implement difficulty selector
 - [ ]  convert project to cmake
+- [ ]  use conan to manage SFML?
