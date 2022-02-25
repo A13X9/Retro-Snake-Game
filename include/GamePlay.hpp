@@ -1,19 +1,18 @@
 #pragma once
 
-#include <memory>
-#include <iostream>
-#include <fstream>
-
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <fstream>
+#include <iostream>
+#include <memory>
 
 #include "Game.hpp"
-#include "State.hpp"
 #include "Snake.hpp"
+#include "State.hpp"
 
 class GamePlay : public Engine::State
 {
-private:
+  private:
     std::shared_ptr<Context> m_context;
     sf::Sprite m_grass;
     sf::Sprite m_food;
@@ -31,7 +30,7 @@ private:
 
     bool m_isPaused;
 
-public:
+  public:
     GamePlay(std::shared_ptr<Context> &context);
     ~GamePlay();
 

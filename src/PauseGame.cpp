@@ -2,27 +2,22 @@
 
 #include <SFML/Window/Event.hpp>
 
-PauseGame::PauseGame(std::shared_ptr<Context> &context) 
-    : m_context(context)
+PauseGame::PauseGame(std::shared_ptr<Context> &context) : m_context(context)
 {
-
 }
 
-PauseGame::~PauseGame() 
+PauseGame::~PauseGame()
 {
-
 }
 
 void PauseGame::Init()
 {
-    //Game Title
+    // Game Title
     m_pauseTitle.setFont(m_context->m_assets->GetFont(MAIN_FONT));
     m_pauseTitle.setFillColor(sf::Color::Black);
     m_pauseTitle.setString("Paused");
-    m_pauseTitle.setOrigin(m_pauseTitle.getLocalBounds().width / 2,
-                           m_pauseTitle.getLocalBounds().height / 2);
-    m_pauseTitle.setPosition(m_context->m_window->getSize().x / 2,
-                             m_context->m_window->getSize().y / 2);
+    m_pauseTitle.setOrigin(m_pauseTitle.getLocalBounds().width / 2, m_pauseTitle.getLocalBounds().height / 2);
+    m_pauseTitle.setPosition(m_context->m_window->getSize().x / 2, m_context->m_window->getSize().y / 2);
 }
 
 void PauseGame::ProcessInput()
@@ -38,13 +33,11 @@ void PauseGame::ProcessInput()
         {
             switch (event.key.code)
             {
-            case sf::Keyboard::Escape:
-            {
+            case sf::Keyboard::Escape: {
                 m_context->m_states->PopCurrent();
                 break;
             }
-            default:
-            {
+            default: {
                 break;
             }
             }

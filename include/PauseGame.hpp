@@ -1,20 +1,19 @@
 #pragma once
 
+#include <SFML/Graphics/Text.hpp>
 #include <memory>
 
-#include <SFML/Graphics/Text.hpp>
-
-#include "State.hpp"
 #include "Game.hpp"
 #include "GamePlay.hpp"
+#include "State.hpp"
 
 class PauseGame : public Engine::State
 {
-private:
+  private:
     std::shared_ptr<Context> m_context;
     sf::Text m_pauseTitle;
 
-public:
+  public:
     PauseGame(std::shared_ptr<Context> &context);
     ~PauseGame();
 

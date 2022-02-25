@@ -1,6 +1,7 @@
 #include "Game.hpp"
 
 #include <SFML/Graphics.hpp>
+
 #include "MainMenu.hpp"
 
 Game::Game() : m_context(std::make_shared<Context>())
@@ -9,8 +10,8 @@ Game::Game() : m_context(std::make_shared<Context>())
     m_context->m_states->Add(std::make_unique<MainMenu>(m_context));
 }
 
-Game::~Game() {
-
+Game::~Game()
+{
 }
 
 void Game::Run()
@@ -23,10 +24,9 @@ void Game::Run()
 
     while (m_context->m_window->isOpen())
     {
-
         timeSinceLastFrame += clock.restart();
-        
-        while(timeSinceLastFrame> TIME_PER_FRAME)
+
+        while (timeSinceLastFrame > TIME_PER_FRAME)
         {
             timeSinceLastFrame -= TIME_PER_FRAME;
 
@@ -36,5 +36,4 @@ void Game::Run()
             m_context->m_states->GetCurrent()->Draw();
         }
     }
-
 }

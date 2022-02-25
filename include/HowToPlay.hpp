@@ -1,8 +1,8 @@
 #pragma once
 
-class HowToPlay {
-
-public:
+class HowToPlay
+{
+  public:
     HowToPlay();
     ~HowToPlay();
 };

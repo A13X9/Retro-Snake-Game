@@ -1,10 +1,10 @@
 #include "StateManager.hpp"
 
-Engine::StateManager::StateManager() : m_add(false), m_remove(false), m_replace(false) 
+Engine::StateManager::StateManager() : m_add(false), m_remove(false), m_replace(false)
 {
 }
 
-Engine::StateManager::~StateManager() 
+Engine::StateManager::~StateManager()
 {
 }
 
@@ -23,10 +23,11 @@ void Engine::StateManager::PopCurrent()
 
 void Engine::StateManager::ProcessStateChange()
 {
-    if(m_remove &&(!m_stateStack.empty())){
+    if (m_remove && (!m_stateStack.empty()))
+    {
         m_stateStack.pop();
 
-        if(!m_stateStack.empty())
+        if (!m_stateStack.empty())
         {
             m_stateStack.top()->Start();
         }
@@ -34,15 +35,15 @@ void Engine::StateManager::ProcessStateChange()
         m_remove = false;
     }
 
-    if(m_add)
+    if (m_add)
     {
-        if(m_replace && (!m_stateStack.empty()))
+        if (m_replace && (!m_stateStack.empty()))
         {
             m_stateStack.pop();
             m_replace = false;
         }
 
-        if(!m_stateStack.empty())
+        if (!m_stateStack.empty())
         {
             m_stateStack.top()->Pause();
         }

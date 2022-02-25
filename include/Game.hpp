@@ -1,8 +1,7 @@
 #pragma once
 
-#include <memory>
-
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <memory>
 
 #include "AssetManager.hpp"
 #include "StateManager.hpp"
@@ -33,11 +32,11 @@ struct Context
 
 class Game
 {
-private:
+  private:
     std::shared_ptr<Context> m_context;
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
-public:
+  public:
     Game();
     ~Game();
 

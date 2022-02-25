@@ -1,17 +1,16 @@
 #pragma once
 
-#include <memory>
+#include <SFML/Graphics/Text.hpp>
 #include <fstream>
+#include <memory>
 #include <string>
 
-#include <SFML/Graphics/Text.hpp>
-
-#include "State.hpp"
 #include "Game.hpp"
+#include "State.hpp"
 
 class GameOver : public Engine::State
 {
-private:
+  private:
     std::shared_ptr<Context> m_context;
     sf::Text m_gameOverTitle;
     sf::Text m_retryButton;
@@ -24,7 +23,7 @@ private:
     bool m_isExitButtonSelected;
     bool m_isExitButtonPressed;
 
-public:
+  public:
     GameOver(std::shared_ptr<Context> &context);
     ~GameOver();
 

@@ -1,11 +1,11 @@
 #include "GameOver.hpp"
-#include "GamePlay.hpp"
 
 #include <SFML/Window/Event.hpp>
 
+#include "GamePlay.hpp"
+
 GameOver::GameOver(std::shared_ptr<Context> &context)
-    : m_context(context), m_isRetryButtonSelected(true),
-      m_isRetryButtonPressed(false), m_isExitButtonSelected(false),
+    : m_context(context), m_isRetryButtonSelected(true), m_isRetryButtonPressed(false), m_isExitButtonSelected(false),
       m_isExitButtonPressed(false)
 {
 }
@@ -19,39 +19,30 @@ void GameOver::Init()
     // Title
     m_gameOverTitle.setFont(m_context->m_assets->GetFont(MAIN_FONT));
     m_gameOverTitle.setString("Game Over!");
-    m_gameOverTitle.setOrigin(m_gameOverTitle.getLocalBounds().width / 2,
-                              m_gameOverTitle.getLocalBounds().height / 2);
-    m_gameOverTitle.setPosition(m_context->m_window->getSize().x / 2,
-                                m_context->m_window->getSize().y / 2 - 150.f);
+    m_gameOverTitle.setOrigin(m_gameOverTitle.getLocalBounds().width / 2, m_gameOverTitle.getLocalBounds().height / 2);
+    m_gameOverTitle.setPosition(m_context->m_window->getSize().x / 2, m_context->m_window->getSize().y / 2 - 150.f);
 
     // Play Button
     m_retryButton.setFont(m_context->m_assets->GetFont(MAIN_FONT));
     m_retryButton.setString("Retry");
-    m_retryButton.setOrigin(m_retryButton.getLocalBounds().width / 2,
-                            m_retryButton.getLocalBounds().height / 2);
-    m_retryButton.setPosition(m_context->m_window->getSize().x / 2,
-                              m_context->m_window->getSize().y / 2 - 25.f);
+    m_retryButton.setOrigin(m_retryButton.getLocalBounds().width / 2, m_retryButton.getLocalBounds().height / 2);
+    m_retryButton.setPosition(m_context->m_window->getSize().x / 2, m_context->m_window->getSize().y / 2 - 25.f);
     m_retryButton.setCharacterSize(20);
 
     // Exit Button
     m_exitButton.setFont(m_context->m_assets->GetFont(MAIN_FONT));
     m_exitButton.setString("Exit");
-    m_exitButton.setOrigin(m_exitButton.getLocalBounds().width / 2,
-                           m_exitButton.getLocalBounds().height / 2);
-    m_exitButton.setPosition(m_context->m_window->getSize().x / 2,
-                             m_context->m_window->getSize().y / 2 + 25.f);
+    m_exitButton.setOrigin(m_exitButton.getLocalBounds().width / 2, m_exitButton.getLocalBounds().height / 2);
+    m_exitButton.setPosition(m_context->m_window->getSize().x / 2, m_context->m_window->getSize().y / 2 + 25.f);
     m_exitButton.setCharacterSize(20);
 
-    //Score
+    // Score
     std::string readScore = GameOver::readScore();
     m_finalScore.setFont(m_context->m_assets->GetFont(MAIN_FONT));
     m_finalScore.setString("Your score is " + readScore + " points!");
-    m_finalScore.setOrigin(m_finalScore.getLocalBounds().width / 2,
-                              m_finalScore.getLocalBounds().height / 2);
-    m_finalScore.setPosition(m_context->m_window->getSize().x / 2 + 100.f,
-                                m_context->m_window->getSize().y / 2 - 80.f);
+    m_finalScore.setOrigin(m_finalScore.getLocalBounds().width / 2, m_finalScore.getLocalBounds().height / 2);
+    m_finalScore.setPosition(m_context->m_window->getSize().x / 2 + 100.f, m_context->m_window->getSize().y / 2 - 80.f);
     m_finalScore.setCharacterSize(20);
-    
 }
 
 void GameOver::ProcessInput()
@@ -67,8 +58,7 @@ void GameOver::ProcessInput()
         {
             switch (event.key.code)
             {
-            case sf::Keyboard::Up:
-            {
+            case sf::Keyboard::Up: {
                 if (!m_isRetryButtonSelected)
                 {
                     m_isRetryButtonSelected = true;
@@ -76,8 +66,7 @@ void GameOver::ProcessInput()
                 }
                 break;
             }
-            case sf::Keyboard::Down:
-            {
+            case sf::Keyboard::Down: {
                 if (!m_isExitButtonSelected)
                 {
                     m_isRetryButtonSelected = false;
@@ -85,8 +74,7 @@ void GameOver::ProcessInput()
                 }
                 break;
             }
-            case sf::Keyboard::Return:
-            {
+            case sf::Keyboard::Return: {
                 m_isRetryButtonPressed = false;
                 m_isExitButtonPressed = false;
 
@@ -101,8 +89,7 @@ void GameOver::ProcessInput()
 
                 break;
             }
-            default:
-            {
+            default: {
                 break;
             }
             }
@@ -135,22 +122,22 @@ void GameOver::Update(sf::Time deltaTime)
 
 const std::string GameOver::readScore()
 {
-	std::string scoreString;
-	const char *fileName="gamedata/Score.txt";
-	std::ifstream file;
-	
-	file.open(fileName,std::ios::in);
-	if(!file)
-	{
-        return "ERROR";
-	}
+    std::string scoreString;
+    const char *fileName = "gamedata/Score.txt";
+    std::ifstream file;
 
-	while (!file.eof()) 
-	{
-		file >> std::noskipws >> scoreString;
+    file.open(fileName, std::ios::in);
+    if (!file)
+    {
+        return "ERROR";
     }
 
-	file.close();
+    while (!file.eof())
+    {
+        file >> std::noskipws >> scoreString;
+    }
+
+    file.close();
     return scoreString;
 }
 

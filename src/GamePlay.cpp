@@ -1,28 +1,23 @@
 #include "GamePlay.hpp"
-#include "GameOver.hpp"
-#include "PauseGame.hpp"
-
-#include <SFML/Window/Event.hpp>
 
 #include <stdlib.h>
 #include <time.h>
+
+#include <SFML/Window/Event.hpp>
 #include <algorithm>
 
-GamePlay::GamePlay(std::shared_ptr<Context> &context) 
-    : m_context(context), 
-      m_snakeDirection({16.f, 0.f}),
-      m_elapsedTime(sf::Time::Zero),
-      m_score(0),
-      m_SuperFooDCounter(1),
-      m_SuperFoodFlag(false),
-      m_isPaused(false)
+#include "GameOver.hpp"
+#include "PauseGame.hpp"
+
+GamePlay::GamePlay(std::shared_ptr<Context> &context)
+    : m_context(context), m_snakeDirection({16.f, 0.f}), m_elapsedTime(sf::Time::Zero), m_score(0),
+      m_SuperFooDCounter(1), m_SuperFoodFlag(false), m_isPaused(false)
 {
     srand(time(NULL));
 }
 
-GamePlay::~GamePlay() 
+GamePlay::~GamePlay()
 {
-
 }
 
 void GamePlay::Init()
@@ -36,7 +31,7 @@ void GamePlay::Init()
     m_grass.setTexture(m_context->m_assets->GetTexture(GRASS));
     m_grass.setTextureRect(m_context->m_window->getViewport(m_context->m_window->getDefaultView()));
 
-    for(auto& wall :m_walls)
+    for (auto &wall : m_walls)
     {
         wall.setTexture(m_context->m_assets->GetTexture(WALL));
     }
@@ -50,16 +45,15 @@ void GamePlay::Init()
     m_walls[3].setPosition({m_context->m_window->getSize().x - 16, 0});
 
     m_food.setTexture(m_context->m_assets->GetTexture(FOOD));
-    m_food.setPosition({m_context->m_window->getSize().x/2, m_context->m_window->getSize().y /2});
+    m_food.setPosition({m_context->m_window->getSize().x / 2, m_context->m_window->getSize().y / 2});
 
     m_SuperFood.setTexture(m_context->m_assets->GetTexture(SUPER_FOOD));
     m_SuperFood.setPosition(-1000, -1000);
 
-
     m_snake.Init(m_context->m_assets->GetTexture(SNAKE));
 
     m_scoreText.setFont(m_context->m_assets->GetFont(MAIN_FONT));
-    m_scoreText.setString("SCORE: "+ std::to_string(m_score));
+    m_scoreText.setString("SCORE: " + std::to_string(m_score));
     m_scoreText.setCharacterSize(10);
 }
 
@@ -108,14 +102,14 @@ void GamePlay::ProcessInput()
 
 void GamePlay::Update(sf::Time deltaTime)
 {
-    if(!m_isPaused)
+    if (!m_isPaused)
     {
         m_elapsedTime += deltaTime;
-        if(m_elapsedTime.asSeconds()>0.1)
+        if (m_elapsedTime.asSeconds() > 0.1)
         {
-            for(auto& wall : m_walls)
+            for (auto &wall : m_walls)
             {
-                if(m_snake.IsOn(wall))
+                if (m_snake.IsOn(wall))
                 {
                     m_context->m_states->Add(std::make_unique<GameOver>(m_context), true);
                     GamePlay::SaveScore();
@@ -123,13 +117,15 @@ void GamePlay::Update(sf::Time deltaTime)
                 }
             }
 
-            if((m_snake.IsOn(m_food)))
+            if ((m_snake.IsOn(m_food)))
             {
                 m_snake.Grow(m_snakeDirection);
 
                 int x = 0, y = 0;
-                x = std::clamp<int>(rand() % m_context->m_window->getSize().x, 16, m_context->m_window->getSize().x - 2 * 16);
-                y = std::clamp<int>(rand() % m_context->m_window->getSize().y, 16, m_context->m_window->getSize().y - 2 * 16);
+                x = std::clamp<int>(rand() % m_context->m_window->getSize().x, 16,
+                                    m_context->m_window->getSize().x - 2 * 16);
+                y = std::clamp<int>(rand() % m_context->m_window->getSize().y, 16,
+                                    m_context->m_window->getSize().y - 2 * 16);
 
                 m_food.setPosition(x, y);
                 m_score += 1;
@@ -137,17 +133,19 @@ void GamePlay::Update(sf::Time deltaTime)
                 m_scoreText.setString("Score : " + std::to_string(m_score));
             }
 
-            if(m_score %10 ==0 && (m_score!=0) && m_SuperFoodFlag==false)
+            if (m_score % 10 == 0 && (m_score != 0) && m_SuperFoodFlag == false)
             {
-                int z =0, w =0;
-                z = std::clamp<int>(rand() % m_context->m_window->getSize().x, 16, m_context->m_window->getSize().x - 2 * 16);
-                w = std::clamp<int>(rand() % m_context->m_window->getSize().y, 16, m_context->m_window->getSize().y - 2 * 16);
+                int z = 0, w = 0;
+                z = std::clamp<int>(rand() % m_context->m_window->getSize().x, 16,
+                                    m_context->m_window->getSize().x - 2 * 16);
+                w = std::clamp<int>(rand() % m_context->m_window->getSize().y, 16,
+                                    m_context->m_window->getSize().y - 2 * 16);
 
                 m_SuperFood.setPosition(z, w);
                 m_SuperFoodFlag = true;
             }
 
-            if(m_snake.IsOn(m_SuperFood))
+            if (m_snake.IsOn(m_SuperFood))
             {
                 m_score += (m_SuperFooDCounter * 2);
                 m_SuperFooDCounter++;
@@ -161,7 +159,7 @@ void GamePlay::Update(sf::Time deltaTime)
                 m_snake.Move(m_snakeDirection);
             }
 
-            if(m_snake.isSelfIntersecting())
+            if (m_snake.isSelfIntersecting())
             {
                 m_context->m_states->Add(std::make_unique<GameOver>(m_context), true);
                 GamePlay::SaveScore();
@@ -177,7 +175,7 @@ void GamePlay::Draw()
     m_context->m_window->clear();
     m_context->m_window->draw(m_grass);
 
-    for(auto& wall : m_walls)
+    for (auto &wall : m_walls)
     {
         m_context->m_window->draw(wall);
     }
@@ -191,16 +189,17 @@ void GamePlay::Draw()
 
 void GamePlay::SaveScore()
 {
-  std::ofstream file;
-  const char *fileName="gamedata/Score.txt";
+    std::ofstream file;
+    const char *fileName = "gamedata/Score.txt";
 
-  file.open (fileName);
-  if (file.is_open())
-  {
-  file << std::to_string(m_score);
-  file.close();
-  }
-  else std::cout << "error saving";
+    file.open(fileName);
+    if (file.is_open())
+    {
+        file << std::to_string(m_score);
+        file.close();
+    }
+    else
+        std::cout << "error saving";
 }
 
 void GamePlay::Pause()
