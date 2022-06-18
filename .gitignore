@@ -33,3 +33,10 @@
 
 # vsCode
 *.vscode
+
+#folder
+*bin*
+
+
+#clang
+*.clang-format

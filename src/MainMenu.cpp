@@ -3,6 +3,7 @@
 #include <SFML/Window/Event.hpp>
 
 #include "GamePlay.hpp"
+#include "HowToPlay.hpp"
 
 MainMenu::MainMenu(std::shared_ptr<Context> &context)
     : m_context(context), m_isPlayButtonSelected(true), m_isPlayButtonPressed(false), m_isExitButtonSelected(false),
@@ -63,13 +64,11 @@ void MainMenu::ProcessInput()
                  (m_selectorPosition < 3))
         {
             m_selectorPosition++;
-            std::cout << m_selectorPosition << std::endl;
         }
         else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Up) &&
                  (m_selectorPosition > 1))
         {
             m_selectorPosition--;
-            std::cout << m_selectorPosition << std::endl;
         }
 
         switch (m_selectorPosition)
@@ -78,21 +77,18 @@ void MainMenu::ProcessInput()
             m_isPlayButtonSelected = true;
             m_isHowToPlayButtonSelected = false;
             m_isExitButtonSelected = false;
-            std::cout << "m_isPlayButtonSelected" << std::endl;
             break;
 
         case (2):
             m_isPlayButtonSelected = false;
             m_isHowToPlayButtonSelected = true;
             m_isExitButtonSelected = false;
-            std::cout << "m_isHowToPlayButtonSelected" << std::endl;
             break;
 
         case (3):
             m_isPlayButtonSelected = false;
             m_isHowToPlayButtonSelected = false;
             m_isExitButtonSelected = true;
-            std::cout << "m_isExitButtonSelected" << std::endl;
             break;
 
         default:
@@ -149,7 +145,7 @@ void MainMenu::Update(sf::Time deltaTime)
     }
     else if (m_isHowToPlayButtonPressed)
     {
-        std::cout << "HOW TO PLAY PRESSED" << std::endl;
+        m_context->m_states->Add(std::make_unique<HowToPlay>(m_context), true);
     }
 }
 

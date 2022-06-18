@@ -12,7 +12,7 @@ PauseGame::~PauseGame()
 
 void PauseGame::Init()
 {
-    // Game Title
+    // Paused Title
     m_pauseTitle.setFont(m_context->m_assets->GetFont(MAIN_FONT));
     m_pauseTitle.setFillColor(sf::Color::Black);
     m_pauseTitle.setString("Paused");

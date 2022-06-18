@@ -4,9 +4,9 @@ This small project was based on: https://github.com/ufrshubham/2D-Snake-Game
 
 TODO:
 - [ ]  improve the description
+- [ ]  implement difficulty selector
+- [ ]  convert project to cMake
+- [ ]  use conan to manage SFML?
 - [X]  ~~implement score display on game over~~
 - [X]  ~~implement food with extra score~~
-- [ ]  implement how to play
-- [ ]  implement difficulty selector
-- [ ]  convert project to cmake
-- [ ]  use conan to manage SFML?
+- [X]  ~~implement how to play~~
